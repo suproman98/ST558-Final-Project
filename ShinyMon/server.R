@@ -13,7 +13,7 @@ library(tidyr)
 library(dplyr)
 library(shiny)
 library(DT)
-library(stringr)
+library(tidyverse)
 pokemon <- read_csv("pokemon.csv")
 pokemon <- pokemon %>% mutate(catch_rate_pct = round((catch_rate/255)*100)) %>% select(-catch_rate)
 
@@ -36,38 +36,36 @@ function(input, output, session) {
             labs(x=paste(input$attr1), y=paste(input$attr2))
     })
     
-    output$catsum <- renderDataTable({
-        pokemon %>%
-            filter(type_1 == input$type1) %>%
+    output$barplot <- renderPlot({
+        pokemon %>% 
             filter(generation == input$gen) %>%
-            select(name = name, total = total_points, catchpct = catch_rate)
+            select(Type = type_1, Catch_Rate_Pct = catch_rate_pct) %>%
+            ggplot(aes(Type, Catch_Rate_Pct, fill=Type))+
+            geom_boxplot()+
+            coord_flip()
     })
     
     
-    output$numsum <- renderDataTable({
-        if(input$type1){
-            if(input$type2){
-                pokemon %>%
-                    select(name, generation, type_1, type_2, hp, attack, defense, sp_attack, sp_defense, speed, total_points)
-                    filter(type_1 == input$type1, type_2 == input$type2) %>%
-                    summarise(mean = avg(total_points), median = median(total_points), sd = sd(total_points))
-            } else {
-                pokemon %>%
-                    filter(type_1 == input$type1) %>%
-                    summarise(mean = avg(total_points), median = median(total_points), sd = sd(total_points))
-            }
-        } else {
-            print("Select a valid typing")
-        }
+    pokesum <- reactive({
+        req(input$column)
+        pokemon %>%
+            select(input$column) %>%
+            summary(input$column) %>%
+            as.data.frame() %>%
+            separate(Freq, c("Stat", "Value"), sep=":") %>%
+            pivot_wider(names_from=Stat, values_from=Value)
     })
+    output$table <- renderDataTable(pokesum())
+    
+
     
     
     
     
         ### Subset data
         pokesub <- reactive({ 
-            a <- subset(pokemon, type_1 %in% input$type)
-        return(a)
+            subpoke <- subset(pokemon, type_1 %in% input$types & generation %in% input$generations & growth_rate %in% input$growth & status %in% input&status)
+        return(subpoke)
         })
     
         output$subset <- renderDataTable({pokesub()})

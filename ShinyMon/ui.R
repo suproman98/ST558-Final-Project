@@ -7,14 +7,13 @@
 #    http://shiny.rstudio.com/
 #
 
-library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(readr)
 library(dplyr)
 library(shiny)
 library(DT)
-library(stringr)
+library(tidyverse)
 library(shinythemes)
 
 pokemon <- read_csv("pokemon.csv")
@@ -49,23 +48,28 @@ navbarPage(theme = shinytheme("sandstone"),
                selectInput('attr2', 'Inform second attribute (Y-axis)', choices = c("hp", "attack", "defense", "sp_attack", "sp_defense", "speed"), selected = "attack"),
                sliderInput('gen', 'Select Generation', min = 1, max = 8, value = 1, step = 1),
                br(),
-               h4("Generate Summary Statistics for Type"),
-               selectInput('type1', 'Select Typing', choices = c("Bug", "Dark", "Dragon", "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"))
+               h4("Generate Summary Statistics for Numeric Column"),
+               selectInput('column', 'Choose Column For Summary', choices = c("height_m", "weight_kg", "hp", "attack", "defense", "sp_attack", "sp_defense", "speed", "catch_rate_pct"))
              ),
-             mainPanel(strong(uiOutput("title", align = "center")), plotOutput("corrplot"), dataTableOutput("catsum"))
+             mainPanel(strong(uiOutput("title", align = "center")), plotOutput("corrplot"), plotOutput("barplot"), dataTableOutput("table"))
            )),
   
   
-  tabPanel("Modeling", mainPanel(tabsetPanel(tabPanel("Model Info"),
-                                             tabPanel("Model Fitting"),
-                                             tabPanel("Prediction")))
+  tabPanel("Modeling", mainPanel(tabsetPanel
+          (tabPanel("Model Info"),
+           tabPanel("Model Fitting" , sliderInput('Slider1', label = h3("Train/Test Split %"), min = 0, max = 100, value = 75), textOutput("cntTrain"), textOutput("cntTest"),),
+           tabPanel("Prediction")))
   ),
   
   
   tabPanel("Data",
            sidebarLayout(
              sidebarPanel(
-               selectInput('type', 'Select Typing', choices = c("Bug", "Dark", "Dragon", "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"), multiple = TRUE, selectize = TRUE, selected = c("Bug", "Dark", "Dragon", "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water")),
+               h3('Subset Options'),
+               selectInput('types', 'Select Typing', choices = c("Bug", "Dark", "Dragon", "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water"), multiple = TRUE, selectize = TRUE, selected = c("Bug", "Dark", "Dragon", "Electric", "Fairy", "Fighting", "Fire", "Flying", "Ghost", "Grass", "Ground", "Ice", "Normal", "Poison", "Psychic", "Rock", "Steel", "Water")),
+               sliderInput('generations', 'Select Generation', min = 1, max = 8, value = 1, step = 1),
+               selectInput('growth', 'Select Growth Rate', choices = c("Slow", "Medium Slow", "Medium Fast", "Fluctuating", "Fast", "Erratic"), multiple = TRUE, selectize = TRUE, selected = c("Slow", "Medium Slow", "Medium Fast", "Fluctuating", "Fast", "Erratic")),
+               selectInput('status', 'Select Rarity', choices = c("Normal", "Mythical", "Sub Legendary", "Legendary"), multiple = TRUE, selectize = TRUE, selected = c("Normal", "Mythical", "Sub Legendary", "Legendary")),
                downloadButton('download',"Download the data")
              ), mainPanel(dataTableOutput("subset"))
            ))

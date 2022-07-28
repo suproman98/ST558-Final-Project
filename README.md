@@ -1,1 +1,58 @@
-# ST558-Final-Project
+The World’s First PokeApp
+================
+Supro Debnath
+2022-07-28
+
+-   [Requirements](#requirements)
+-   [Install Packages](#install-packages)
+-   [Shiny App Code](#shiny-app-code)
+
+This shiny app is a demo of all pokemon from Generations 1 through 8.
+The data can be found through
+[Kaggle](https://www.kaggle.com/mariotormo/complete-pokemon-dataset-updated-090420).
+We will be able to look at various metrics that influence a pokemon, as
+well as allowing for users to subset the data and allow them to select
+variables that they want to visualize or model. The app provides three
+supervised learning models that the user can utilize to generate
+predictions based on whatever variables they select. Everything from the
+training/testing split to what variables they want to filter on in the
+raw data is available. The app is meant to demonstrate use of the
+UI/Server files through various reactive inputs as well as allowing the
+user to toggle settings they wish to look into or exclude.
+
+## Requirements
+
+To run this app, a few packages must be installed.
+
+-   `shiny`: A package that allows for building of interactive web apps.
+-   `shinythemes`: Selecting a theme for your app.
+-   `tidyverse`: Collection of R packages that contribute heavily to API
+    interaction and data visualization.
+-   `knitr`: Provides tools for dynamic reporting in R.
+-   `dplyr`: Package that provides tools for working with data frames.
+-   `readr`: Package that allows for rectangular reading of imported
+    data (such as excel files).
+-   `ggplot2`: Powerful for complex data visualizations.
+-   `DT`: An R interface package that allows for communication with the
+    JavaScript library `DataTables`.
+
+## Install Packages
+
+``` r
+install.packages(c("shiny", "shinythemes", "tidyverse", "knitr", "dplyr", "readr", "ggplot2", "DT"))
+```
+
+    ## Error in install.packages : Updating loaded packages
+
+``` r
+library(shiny)
+library(shinythemes)
+library(tidyverse)
+library(knitr)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(DT)
+```
+
+## Shiny App Code
