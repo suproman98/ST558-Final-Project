@@ -55,16 +55,71 @@ function(input, output, session) {
             separate(Freq, c("Stat", "Value"), sep=":") %>%
             pivot_wider(names_from=Stat, values_from=Value)
     })
+    
     output$table <- renderDataTable(pokesum())
     
+    
+    
+    InputDataset <- reactive({
+        pokemon
+    })
+    
+    
+    InputDataset_model <- reactive({
+        if (is.null(input$SelectX)) {
+            dt <- pokemon
+        }
+        else{
+            dt <- pokemon[, c(input$SelectX)]
+        }
+        
+    })
 
+    splitSlider <- reactive({
+        input$Slider1 / 100
+    })
+    
+    set.seed(100)  # setting seed to reproduce results of random sampling
+    trainingRowIndex <-
+        reactive({
+            sample(1:nrow(InputDataset_model()),
+                   splitSlider() * nrow(InputDataset_model()))
+        })# row indices for training data
+    
+    trainingData <- reactive({
+        tmptraindt <- InputDataset_model()
+        tmptraindt[trainingRowIndex(), ]
+    })
+    
+    testData <- reactive({
+        tmptestdt <- InputDataset_model()
+        tmptestdt[-trainingRowIndex(),]
+    })
+    
+    
+    #Code section for Linear Regression-----------------------------------------------------------------------------
+    
+    f <- reactive({
+        as.formula(paste(input$SelectY, "~."))
+    })
+    
+    
+    Linear_Model <- reactive({
+        lm(f(), data = trainingData())
+    })
+    
+    output$Model <- renderPrint(summary(Linear_Model()))
+    output$Model_new <-
+        renderPrint(Linear_Model()
+                    )
+    
     
     
     
     
         ### Subset data
         pokesub <- reactive({ 
-            subpoke <- subset(pokemon, type_1 %in% input$types & generation %in% input$generations & growth_rate %in% input$growth & status %in% input&status)
+            subpoke <- subset(pokemon, type_1 %in% input$types & generation %in% input$generations & growth_rate %in% input$growth & status %in% input$status)
         return(subpoke)
         })
     
