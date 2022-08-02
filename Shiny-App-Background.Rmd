@@ -43,6 +43,6 @@ library(caret)
 
 ## Shiny App Code
 ```{r}
-shiny::runGitHub("ST558-Final-Project", "suproman98") 
+#shiny::runGitHub("ST558-Final-Project", "suproman98") 
 ```
 

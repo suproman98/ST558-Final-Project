@@ -5,6 +5,7 @@ Supro Debnath
 
 -   [Requirements](#requirements)
 -   [Install Packages](#install-packages)
+-   [Libraries](#libraries)
 -   [Shiny App Code](#shiny-app-code)
 
 This shiny app is a demo of all pokemon from Generations 1 through 8.
@@ -35,14 +36,20 @@ To run this app, a few packages must be installed.
 -   `ggplot2`: Powerful for complex data visualizations.
 -   `DT`: An R interface package that allows for communication with the
     JavaScript library `DataTables`.
+-   `randomForest`: A package that allows for utilization of random
+    forests and functions pertaining to it.
+-   `caret`: Miscellaneous functions associated with training and
+    testing on regression/classification data.
 
 ## Install Packages
 
 ``` r
-install.packages(c("shiny", "shinythemes", "tidyverse", "knitr", "dplyr", "readr", "ggplot2", "DT"))
+install.packages(c("shiny", "shinythemes", "tidyverse", "knitr", "dplyr", "readr", "ggplot2", "DT", "randomForest", "caret"))
 ```
 
     ## Error in install.packages : Updating loaded packages
+
+## Libraries
 
 ``` r
 library(shiny)
@@ -53,6 +60,12 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 library(DT)
+library(randomForest)
+library(caret)
 ```
 
 ## Shiny App Code
+
+``` r
+#shiny::runGitHub("ST558-Final-Project", "suproman98") 
+```
