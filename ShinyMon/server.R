@@ -158,7 +158,7 @@ function(input, output, session) {
             } else if (!("against_poison" %in% input$xvar)) {
                 poke_supervise <- pokemodel %>% select(-against_poison)
             } else if (!input$xvar){
-                stop('Select at least one Predictive Variable Please!')
+                stop('Select Predictors')
             }
             
             ### Perform Train/Test split
@@ -250,6 +250,12 @@ function(input, output, session) {
     
     
     ## Predictions
+    poke_supervise <- reactive({
+        req(input$column)
+        pokemon %>%
+            select(input$column) %>%
+            summary(input$column)
+    
     output$prediction <- renderDataTable({
         pred_poke <- data.frame(poke_supervise)
         glm_pred <- predict(glm, pred_poke)
