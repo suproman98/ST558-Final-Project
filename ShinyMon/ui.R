@@ -7,6 +7,7 @@
 #    http://shiny.rstudio.com/
 #
 
+# Call Libraries
 library(ggplot2)
 library(tidyr)
 library(readr)
@@ -15,12 +16,20 @@ library(shiny)
 library(DT)
 library(tidyverse)
 library(shinythemes)
+library(randomForest)
+library(caret)
 
+# Filter/Clean Data
 pokemon <- read_csv("pokemon.csv")
-pokemon <- pokemon %>% mutate(catch_rate_pct = round((catch_rate/255)*100)) %>% select(-catch_rate)
+pokemon <- pokemon %>% mutate(catch_rate_pct = round((catch_rate/255)*100))
+pokemodel <- pokemon %>% select(generation, status, type_number, type_1, height_m, weight_kg,	abilities_number, total_points, hp, attack, defense, sp_attack, sp_defense, speed, growth_rate, against_normal, against_fire, against_water, against_electric, against_grass, against_ice, against_fight, against_poison, against_ground, against_flying, against_psychic, against_bug, against_rock, against_ghost,	against_dragon, against_dark, against_steel, against_fairy, catch_rate_pct)
+pokemodel <- na.omit(pokemodel)
 
+# Create UI
 navbarPage(theme = shinytheme("sandstone"),
   "My Application",
+  
+  ## Create About Page
   tabPanel("About This App", 
            mainPanel(
              h3("Purpose"),
@@ -40,7 +49,8 @@ navbarPage(theme = shinytheme("sandstone"),
            )),
   
   
-  
+# Create Data Exploration Tab
+
   tabPanel("Data Exploration",
            sidebarLayout(
              sidebarPanel(
@@ -51,11 +61,13 @@ navbarPage(theme = shinytheme("sandstone"),
                h4("Generate Summary Statistics for Numeric Column"),
                selectInput('column', 'Choose Column For Summary', choices = c("height_m", "weight_kg", "hp", "attack", "defense", "sp_attack", "sp_defense", "speed", "catch_rate_pct"))
              ),
-             mainPanel(strong(uiOutput("title", align = "center")), plotOutput("corrplot"), plotOutput("barplot"), dataTableOutput("table"))
+             mainPanel(strong(uiOutput("title", align = "center")), plotOutput("corrplot"), strong(uiOutput("title2", align = "center")), plotOutput("barplot"), dataTableOutput("table"))
            )),
   
   
-  
+# Create Modeling Page  
+
+  ### Modeling Info Page
   tabPanel("Modeling", mainPanel(tabsetPanel
           (tabPanel("Model Info",
                     mainPanel(
@@ -79,16 +91,20 @@ navbarPage(theme = shinytheme("sandstone"),
                     helpText('Selecting Classification Predictors: m = \\(\\sqrt{p}\\)'),
                     helpText('Selecting Regression Predictors: $$m = \\frac{p}{3}$$')
                     )),
-           tabPanel("Model Fitting", 
-                    sliderInput('Slider1', label = h3("Train/Test Split %"), min = 0, max = 100, value = 75), 
-                    selectInput("SelectX", label = "Select variables:", choices = names(pokemon), multiple = TRUE, selected = names(pokemon)),
-                    selectInput("SelectY", label = "Select variable to predict:", choices = names(pokemon)), mainPanel(verbatimTextOutput("Model"))
-                    ),
-           tabPanel("Prediction")))
+ 
+  ### Model Fit Page
+  tabPanel("Model Fitting", 
+                    sliderInput("train_pct", label = h3("Train/Test Split %"), min = 0, max = 100, value = 75), 
+                    selectInput("xvar", label = "Select variables:", choices = c(names(pokemodel %>% select(-catch_rate_pct))), multiple = TRUE, selected = NULL),
+                    actionButton("model_run", "Run Supervised Models"), mainPanel(tableOutput("RMSE"), plotOutput("glm"), plotOutput("regtree"), plotOutput("rforest"))),
+            
+  ### Model Prediction Page         
+  tabPanel("Prediction", mainPanel(dataTableOutput("prediction")))
+            ))
   ),
+
   
-  
-  
+  ### Create Data   
   tabPanel("Data",
            sidebarLayout(
              sidebarPanel(

@@ -18,12 +18,15 @@ To run this app, a few packages must be installed.
 - `readr`: Package that allows for rectangular reading of imported data (such as excel files).
 - `ggplot2`: Powerful for complex data visualizations.
 - `DT`: An R interface package that allows for communication with the JavaScript library `DataTables`.
+- `randomForest`: A package that allows for utilization of random forests and functions pertaining to it.
+- `caret`: Miscellaneous functions associated with training and testing on regression/classification data.
 
 ## Install Packages
 ```{r}
-install.packages(c("shiny", "shinythemes", "tidyverse", "knitr", "dplyr", "readr", "ggplot2", "DT"))
+install.packages(c("shiny", "shinythemes", "tidyverse", "knitr", "dplyr", "readr", "ggplot2", "DT", "randomForest", "caret"))
 ```
 
+## Libraries
 ```{r libraries, message=FALSE, warning=FALSE}
 library(shiny)
 library(shinythemes)
@@ -33,7 +36,13 @@ library(dplyr)
 library(readr)
 library(ggplot2)
 library(DT)
+library(randomForest)
+library(caret)
 ```
 
 
 ## Shiny App Code
+```{r}
+shiny::runGitHub("ST558-Final-Project", "suproman98") 
+```
+
