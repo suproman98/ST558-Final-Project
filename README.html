@@ -605,6 +605,7 @@ body {
 <ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#install-packages">Install Packages</a></li>
+<li><a href="#libraries">Libraries</a></li>
 <li><a href="#shiny-app-code">Shiny App Code</a></li>
 </ul>
 <p>This shiny app is a demo of all pokemon from Generations 1 through 8.
@@ -634,10 +635,15 @@ imported data (such as excel files).</li>
 <li><code>ggplot2</code>: Powerful for complex data visualizations.</li>
 <li><code>DT</code>: An R interface package that allows for
 communication with the JavaScript library <code>DataTables</code>.</li>
+<li><code>randomForest</code>: A package that allows for utilization of
+random forests and functions pertaining to it.</li>
+<li><code>caret</code>: Miscellaneous functions associated with training
+and testing on regression/classification data.</li>
 </ul>
 <h2 id="install-packages">Install Packages</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;shiny&quot;</span>, <span class="st">&quot;shinythemes&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;readr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;DT&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">&quot;shiny&quot;</span>, <span class="st">&quot;shinythemes&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;readr&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;DT&quot;</span>, <span class="st">&quot;randomForest&quot;</span>, <span class="st">&quot;caret&quot;</span>))</span></code></pre></div>
 <pre><code>## Error in install.packages : Updating loaded packages</code></pre>
+<h2 id="libraries">Libraries</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shinythemes)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -645,8 +651,11 @@ communication with the JavaScript library <code>DataTables</code>.</li>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span></code></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code></pre></div>
 <h2 id="shiny-app-code">Shiny App Code</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#shiny::runGitHub(&quot;ST558-Final-Project&quot;, &quot;suproman98&quot;) </span></span></code></pre></div>
 
 </body>
 </html>
